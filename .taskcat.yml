@@ -1,5 +1,5 @@
 project:
-  name: quickstart-okta-asa
+  name: cfn-ps-okta-asa
   owner: quickstart-eng@amazon.com
   lambda_source_path: functions/source
   lambda_zip_path: packages
