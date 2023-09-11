@@ -43,7 +43,7 @@ Metadata:
           - QSS3KeyPrefix
           - QSS3BucketRegion
       - Label:
-          default: "Okta Advanced Server Access parameters"
+          default: Okta Advanced Server Access parameters
         Parameters:
           - EnrollmentToken
     ParameterLabels:
@@ -95,11 +95,13 @@ Metadata:
         default: Root volume size
       EnrollmentToken:
         default: Okta Advanced Server Access enrollment token
-  cfn-lint: { config: { ignore_checks: [E9007] } }
+  cfn-lint:
+    config:
+      ignore_checks:
+        - E9007
 Parameters:
   BastionSecurityGroupID:
-    Description: ID of the bastion host security group to enable SSH connections (e.g.,
-      sg-7f16e910).
+    Description: ID of the bastion host security group to enable SSH connections (e.g., sg-7f16e910).
     Type: AWS::EC2::SecurityGroup::Id
   EC2AMIOS:
     AllowedValues:
@@ -114,15 +116,15 @@ Parameters:
     Description: Value used for the name tag of the bastion host.
     Type: String
   TargetHostName:
-    Default: 'LinuxTarget'
+    Default: LinuxTarget
     Description: Value used for the name tag of the target host.
     Type: String
   EC2Banner:
-    Default: ""
+    Default: ''
     Description: Banner text to display upon login.
     Type: String
   EC2Tenancy:
-    Description: 'VPC tenancy to launch the target in. To change from "default," choose "dedicated."'
+    Description: VPC tenancy to launch the target in. To change from "default," choose "dedicated."
     Type: String
     Default: default
     AllowedValues:
@@ -157,21 +159,23 @@ Parameters:
     Type: String
   EnableTCPForwarding:
     Type: String
-    Description: With TCP forwarding on a Linux bastion host, you can set up direct connections from outside of the VPC to services running in private subnets by routing the traffic through the bastion host. To disable TCP forwarding, choose "false."
+    Description: With TCP forwarding on a Linux bastion host, you can set up direct connections from outside of the VPC to services running in private subnets by routing the traffic through the bastion
+      host. To disable TCP forwarding, choose "false."
     Default: 'true'
     AllowedValues:
       - 'true'
       - 'false'
   EnableX11Forwarding:
     Type: String
-    Description: With X11 forwarding on a Linux bastion host, you can establish management connections to Linux instances using GUIs (as opposed to text-based SSH connections). To disable X11 forwarding, choose "false."
+    Description: With X11 forwarding on a Linux bastion host, you can establish management connections to Linux instances using GUIs (as opposed to text-based SSH connections). To disable X11 forwarding,
+      choose "false."
     Default: 'true'
     AllowedValues:
       - 'true'
       - 'false'
   KeyPairName:
     Description: Name of an existing public/private key pair. You use this name to securely connect to your instance after it launches. If you do not have one in this AWS Region, create one before continuing.
-    Type: 'AWS::EC2::KeyPair::KeyName'
+    Type: AWS::EC2::KeyPair::KeyName
   NumEC2Hosts:
     AllowedValues:
       - '1'
@@ -188,43 +192,28 @@ Parameters:
     Description: ID of the private subnet 2 in Availability Zone 2 (e.g., subnet-a0246dcd).
     Type: AWS::EC2::Subnet::Id
   QSS3BucketName:
-    AllowedPattern: '^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$'
-    ConstraintDescription: The Quick Start bucket name can include numbers, lowercase
-      letters, uppercase letters, and hyphens (-). It cannot start or end with a 
-      hyphen (-).
+    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+    ConstraintDescription: The Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).
     Default: aws-ia-us-east-1
-    Description: Name of the S3 bucket for your copy of the Quick Start assets. 
-      Keep the default name unless you are customizing the template. 
-      Changing the name updates code references to point to a new Quick 
-      Start location. This name can include numbers, lowercase letters, 
-      uppercase letters, and hyphens, but do not start or end with a hyphen (-). 
-      See https://aws-quickstart.github.io/option1.html.
+    Description: Name of the S3 bucket for your copy of the Quick Start assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new
+      Quick Start location. This name can include numbers, lowercase letters, uppercase letters, and hyphens, but do not start or end with a hyphen (-). See https://aws-quickstart.github.io/option1.html.
     Type: String
   QSS3BucketRegion:
-    Default: 'us-east-1'
-    Description: 'AWS Region where the Quick Start S3 bucket (QSS3BucketName) is 
-    hosted. Keep the default Region unless you are customizing the template. 
-    Changing this Region updates code references to point to a new Quick Start location. 
-    When using your own bucket, specify the Region. 
-    See https://aws-quickstart.github.io/option1.html.'
+    Default: us-east-1
+    Description: AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. Keep the default Region unless you are customizing the template. Changing this Region updates code references to point
+      to a new Quick Start location. When using your own bucket, specify the Region. See https://aws-quickstart.github.io/option1.html.
     Type: String
   QSS3KeyPrefix:
-    AllowedPattern: '^([0-9a-zA-Z-.]+/)*$'
-    ConstraintDescription: The Quick Start S3 key prefix can include numbers, lowercase letters,
-      uppercase letters, hyphens (-), and forward slashes (/). The prefix should
-      end with a forward slash (/).
+    AllowedPattern: ^([0-9a-zA-Z-.]+/)*$
+    ConstraintDescription: The Quick Start S3 key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). The prefix should end with a forward slash (/).
     Default: cfn-ps-okta-asa/
-    Description: S3 key prefix that is used to simulate a directory for your copy of the 
-      Quick Start assets. Keep the default prefix unless you are customizing 
-      the template. Changing this prefix updates code references to point to 
-      a new Quick Start location. This prefix can include numbers, lowercase 
-      letters, uppercase letters, hyphens (-), and forward slashes (/). End with a forward slash. 
-      See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html 
+    Description: S3 key prefix that is used to simulate a directory for your copy of the Quick Start assets. Keep the default prefix unless you are customizing the template. Changing this prefix updates
+      code references to point to a new Quick Start location. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). End with a forward slash. See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html
       and https://aws-quickstart.github.io/option1.html.
     Type: String
   VPCID:
-    Description: 'ID of the VPC (e.g., vpc-0343606e).'
-    Type: 'AWS::EC2::VPC::Id'
+    Description: ID of the VPC (e.g., vpc-0343606e).
+    Type: AWS::EC2::VPC::Id
   AlternativeInitializationScript:
     AllowedPattern: ^http.*|^$
     ConstraintDescription: URL must begin with http
@@ -236,14 +225,11 @@ Parameters:
     Type: String
     Default: ''
   AlternativeIAMRole:
-    Description: Existing IAM role name to attach to the target. If kept blank,
-      a new role will be created.
+    Description: Existing IAM role name to attach to the target. If kept blank, a new role will be created.
     Default: ''
     Type: String
   EnvironmentVariables:
-    Description: Comma-separated list of environment variables for use in
-      bootstrapping. Variables must be in the format KEY=VALUE. VALUE cannot
-      contain commas.
+    Description: Comma-separated list of environment variables for use in bootstrapping. Variables must be in the format KEY=VALUE. VALUE cannot contain commas.
     Type: String
     Default: ''
   RootVolumeSize:
@@ -259,11 +245,11 @@ Rules:
   SubnetsInVPC:
     Assertions:
       - Assert:
-          'Fn::EachMemberIn':
-            - 'Fn::ValueOfAll':
-                - 'AWS::EC2::Subnet::Id'
+          Fn::EachMemberIn:
+            - Fn::ValueOfAll:
+                - AWS::EC2::Subnet::Id
                 - VpcId
-            - 'Fn::RefAll': 'AWS::EC2::VPC::Id'
+            - Fn::RefAll: AWS::EC2::VPC::Id
         AssertDescription: All subnets must exist in the VPC.
 Mappings:
   AWSAMIRegionMap:
@@ -271,7 +257,6 @@ Mappings:
       AMZNLINUX2: ami-0bb140f2ff1df29fc
       US2004HVM: ami-012b8921f84acdd04
       CENTOS7HVM: ami-0a2be7731769e6cc1
-#      SLES15HVM: ami-EXAMPLE
     ap-northeast-1:
       AMZNLINUX2: ami-00f045aed21a55240
       US2004HVM: ami-0f2322bff98877761
@@ -398,110 +383,140 @@ Mappings:
       Code: SLES15HVM
       OS: SLES
 Conditions:
-  UseAlternativeInitialization: !Not
-    - !Equals
-      - !Ref AlternativeInitializationScript
+  UseAlternativeInitialization:
+    Fn::Not:
+      - Fn::Equals:
+          - Ref: AlternativeInitializationScript
+          - ''
+  CreateIAMRole:
+    Fn::Equals:
+      - Ref: AlternativeIAMRole
       - ''
-  CreateIAMRole: !Equals
-    - !Ref AlternativeIAMRole
-    - ''
-  UseOSImageOverride: !Not
-    - !Equals
-      - !Ref OSImageOverride
+  UseOSImageOverride:
+    Fn::Not:
+      - Fn::Equals:
+          - Ref: OSImageOverride
+          - ''
+  UsingDefaultBucket:
+    Fn::Equals:
+      - Ref: QSS3BucketName
+      - aws-ia-us-east-1
+  DefaultBanner:
+    Fn::Equals:
+      - Ref: EC2Banner
       - ''
-  UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-ia-us-east-1']
-  DefaultBanner: !Equals [!Ref EC2Banner, ""]
 Resources:
   TargetMainLogGroup:
-    Type: 'AWS::Logs::LogGroup'
+    Type: AWS::Logs::LogGroup
   SSHMetricFilter:
-    Type: 'AWS::Logs::MetricFilter'
+    Type: AWS::Logs::MetricFilter
     Properties:
-      LogGroupName: !Ref TargetMainLogGroup
+      LogGroupName:
+        Ref: TargetMainLogGroup
       FilterPattern: ON FROM USER PWD
       MetricTransformations:
         - MetricName: SSHCommandCount
           MetricValue: '1'
-          MetricNamespace: !Sub "AWSQuickStart/${AWS::StackName}"
+          MetricNamespace:
+            Fn::Sub: AWSQuickStart/${AWS::StackName}
   TargetHostRole:
     Condition: CreateIAMRole
-    Type: 'AWS::IAM::Role'
+    Type: AWS::IAM::Role
     Properties:
       Path: /
       AssumeRolePolicyDocument:
         Statement:
           - Action:
-              - 'sts:AssumeRole'
+              - sts:AssumeRole
             Principal:
               Service:
-                - !Sub 'ec2.${AWS::URLSuffix}'
+                - Fn::Sub: ec2.${AWS::URLSuffix}
             Effect: Allow
         Version: 2012-10-17
       ManagedPolicyArns:
-        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore'
-        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy'
+        - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy
   TargetHostPolicy:
-    Type: 'AWS::IAM::Policy'
+    Type: AWS::IAM::Policy
     Properties:
       PolicyName: TargetPolicy
       PolicyDocument:
         Version: 2012-10-17
         Statement:
           - Action:
-              - 's3:GetObject'
-            Resource: !Sub
-              - arn:${AWS::Partition}:s3:::${S3Bucket}/${QSS3KeyPrefix}*
-              - S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+              - s3:GetObject
+            Resource:
+              Fn::Sub:
+                - arn:${AWS::Partition}:s3:::${S3Bucket}/${QSS3KeyPrefix}*
+                - S3Bucket:
+                    Fn::If:
+                      - UsingDefaultBucket
+                      - Fn::Sub: ${QSS3BucketName}-${AWS::Region}
+                      - Ref: QSS3BucketName
             Effect: Allow
           - Action:
-              - 'logs:CreateLogStream'
-              - 'logs:GetLogEvents'
-              - 'logs:PutLogEvents'
-              - 'logs:DescribeLogGroups'
-              - 'logs:DescribeLogStreams'
-              - 'logs:PutRetentionPolicy'
-              - 'logs:PutMetricFilter'
-              - 'logs:CreateLogGroup'
-            Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:${TargetMainLogGroup}:*"
+              - logs:CreateLogStream
+              - logs:GetLogEvents
+              - logs:PutLogEvents
+              - logs:DescribeLogGroups
+              - logs:DescribeLogStreams
+              - logs:PutRetentionPolicy
+              - logs:PutMetricFilter
+              - logs:CreateLogGroup
+            Resource:
+              Fn::Sub: arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:${TargetMainLogGroup}:*
             Effect: Allow
           - Action:
-              - 'ec2:AssociateAddress'
-              - 'ec2:DescribeAddresses'
+              - ec2:AssociateAddress
+              - ec2:DescribeAddresses
             Resource: '*'
             Effect: Allow
       Roles:
-        - !If
-          - CreateIAMRole
-          - !Ref TargetHostRole
-          - !Ref AlternativeIAMRole
+        - Fn::If:
+            - CreateIAMRole
+            - Ref: TargetHostRole
+            - Ref: AlternativeIAMRole
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - EIAMPolicyWildcardResource
+          ignore_reasons:
+            - EIAMPolicyWildcardResource: Intent assumed for initial migration.
   TargetHostProfile:
     DependsOn: TargetHostPolicy
-    Type: 'AWS::IAM::InstanceProfile'
+    Type: AWS::IAM::InstanceProfile
     Properties:
       Roles:
-        - !If
-          - CreateIAMRole
-          - !Ref TargetHostRole
-          - !Ref AlternativeIAMRole
+        - Fn::If:
+            - CreateIAMRole
+            - Ref: TargetHostRole
+            - Ref: AlternativeIAMRole
       Path: /
   TargetAutoScalingGroup:
-    Type: 'AWS::AutoScaling::AutoScalingGroup'
+    Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
-      LaunchConfigurationName: !Ref TargetLaunchConfiguration
+      LaunchConfigurationName:
+        Ref: TargetLaunchConfiguration
       VPCZoneIdentifier:
-        - !Ref 'PrivateSubnet1ID'
-        - !Ref 'PrivateSubnet2ID'
-      MinSize: !Ref NumEC2Hosts
-      MaxSize: !Ref NumEC2Hosts
+        - Ref: PrivateSubnet1ID
+        - Ref: PrivateSubnet2ID
+      MinSize:
+        Ref: NumEC2Hosts
+      MaxSize:
+        Ref: NumEC2Hosts
       Cooldown: '900'
-      DesiredCapacity: !Ref NumEC2Hosts
+      DesiredCapacity:
+        Ref: NumEC2Hosts
       Tags:
         - Key: Name
-          Value: !Ref TargetHostName
+          Value:
+            Ref: TargetHostName
           PropagateAtLaunch: true
     CreationPolicy:
       ResourceSignal:
-        Count: !Ref NumEC2Hosts
+        Count:
+          Ref: NumEC2Hosts
         Timeout: PT60M
       AutoScalingCreationPolicy:
         MinSuccessfulInstancesPercent: 100
@@ -509,26 +524,38 @@ Resources:
       AutoScalingReplacingUpdate:
         WillReplace: true
   TargetLaunchConfiguration:
-    Type: 'AWS::AutoScaling::LaunchConfiguration'
+    Type: AWS::AutoScaling::LaunchConfiguration
     Metadata:
-      'AWS::CloudFormation::Authentication':
+      AWS::CloudFormation::Authentication:
         S3AccessCreds:
           type: S3
-          roleName: !If
-            - CreateIAMRole
-            - !Ref TargetHostRole
-            - !Ref AlternativeIAMRole
+          roleName:
+            Fn::If:
+              - CreateIAMRole
+              - Ref: TargetHostRole
+              - Ref: AlternativeIAMRole
           buckets:
-            - !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
-      'AWS::CloudFormation::Init':
+            - Fn::If:
+                - UsingDefaultBucket
+                - Fn::Sub: ${QSS3BucketName}-${AWS::Region}
+                - Ref: QSS3BucketName
+      AWS::CloudFormation::Init:
         config:
           files:
             /tmp/install_asa_target.sh:
               source:
-                !Sub
+                Fn::Sub:
                   - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/install_asa_target.sh
-                  - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-                    S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+                  - S3Region:
+                      Fn::If:
+                        - UsingDefaultBucket
+                        - Ref: AWS::Region
+                        - Ref: QSS3BucketRegion
+                    S3Bucket:
+                      Fn::If:
+                        - UsingDefaultBucket
+                        - Fn::Sub: ${QSS3BucketName}-${AWS::Region}
+                        - Ref: QSS3BucketName
               mode: '000550'
               owner: root
               group: root
@@ -537,155 +564,182 @@ Resources:
               mode: '000550'
               owner: root
               group: root
-              content: |
-                -a exit,always -F arch=b64 -S execve
-                -a exit,always -F arch=b32 -S execve
+              content: "-a exit,always -F arch=b64 -S execve\n-a exit,always -F arch=b32 -S execve\n"
             /tmp/auditing_configure.sh:
               source:
-                !Sub
+                Fn::Sub:
                   - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/auditing_configure.sh
-                  - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-                    S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+                  - S3Region:
+                      Fn::If:
+                        - UsingDefaultBucket
+                        - Ref: AWS::Region
+                        - Ref: QSS3BucketRegion
+                    S3Bucket:
+                      Fn::If:
+                        - UsingDefaultBucket
+                        - Fn::Sub: ${QSS3BucketName}-${AWS::Region}
+                        - Ref: QSS3BucketName
               mode: '000550'
               owner: root
               group: root
               authentication: S3AccessCreds
             /tmp/target_bootstrap.sh:
-              source: !If
-                - UseAlternativeInitialization
-                - !Ref AlternativeInitializationScript
-                - !Sub
-                  - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/target_bootstrap.sh
-                  - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-                    S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+              source:
+                Fn::If:
+                  - UseAlternativeInitialization
+                  - Ref: AlternativeInitializationScript
+                  - Fn::Sub:
+                      - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/target_bootstrap.sh
+                      - S3Region:
+                          Fn::If:
+                            - UsingDefaultBucket
+                            - Ref: AWS::Region
+                            - Ref: QSS3BucketRegion
+                        S3Bucket:
+                          Fn::If:
+                            - UsingDefaultBucket
+                            - Fn::Sub: ${QSS3BucketName}-${AWS::Region}
+                            - Ref: QSS3BucketName
               mode: '000550'
               owner: root
               group: root
               authentication: S3AccessCreds
           commands:
             a-add_auditd_rules:
-              cwd: '/tmp/'
+              cwd: /tmp/
               env:
-                BASTION_OS: !FindInMap [LinuxAMINameMap, !Ref EC2AMIOS, OS]
-              command: "./auditing_configure.sh"
-              # command:
-              #   - !If [ ]
-              #   - "cat /tmp/auditd.rules >> /etc/audit/rules.d/audit.rules && service auditd restart"
+                BASTION_OS:
+                  Fn::FindInMap:
+                    - LinuxAMINameMap
+                    - Ref: EC2AMIOS
+                    - OS
+              command: ./auditing_configure.sh
             b-bootstrap:
-              cwd: '/tmp/'
+              cwd: /tmp/
               env:
-                REGION: !Sub ${AWS::Region}
-                URL_SUFFIX: !Sub ${AWS::URLSuffix}
-                BANNER_REGION: !If [ UsingDefaultBucket, !Ref 'AWS::Region', !Ref 'QSS3BucketRegion' ]
-              command: !Sub
-                - "./target_bootstrap.sh --banner ${BannerUrl} --enable ${EnableBanner} --tcp-forwarding ${EnableTCPForwarding} --x11-forwarding ${EnableX11Forwarding}"
-                - BannerUrl: !If
-                  - DefaultBanner
-                  - !Sub
-                    - s3://${S3Bucket}/${QSS3KeyPrefix}scripts/banner_message.txt
-                    - S3Bucket: !If [ UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref 'QSS3BucketName' ]
-                  - !Ref EC2Banner
+                REGION:
+                  Fn::Sub: ${AWS::Region}
+                URL_SUFFIX:
+                  Fn::Sub: ${AWS::URLSuffix}
+                BANNER_REGION:
+                  Fn::If:
+                    - UsingDefaultBucket
+                    - Ref: AWS::Region
+                    - Ref: QSS3BucketRegion
+              command:
+                Fn::Sub:
+                  - ./target_bootstrap.sh --banner ${BannerUrl} --enable ${EnableBanner} --tcp-forwarding ${EnableTCPForwarding} --x11-forwarding ${EnableX11Forwarding}
+                  - BannerUrl:
+                      Fn::If:
+                        - DefaultBanner
+                        - Fn::Sub:
+                            - s3://${S3Bucket}/${QSS3KeyPrefix}scripts/banner_message.txt
+                            - S3Bucket:
+                                Fn::If:
+                                  - UsingDefaultBucket
+                                  - Fn::Sub: ${QSS3BucketName}-${AWS::Region}
+                                  - Ref: QSS3BucketName
+                        - Ref: EC2Banner
             c-install_asa:
-              cwd: '/tmp/'
+              cwd: /tmp/
               env:
-                TARGET_OS: !FindInMap [LinuxAMINameMap, !Ref EC2AMIOS, OS]
-                ENROLLMENT_TOKEN: !Ref EnrollmentToken
-                BASTION_HOSTNAME: !Ref BastionHostName
-                TARGET_HOSTNAME: !Ref TargetHostName
-              command: "./install_asa_target.sh"
+                TARGET_OS:
+                  Fn::FindInMap:
+                    - LinuxAMINameMap
+                    - Ref: EC2AMIOS
+                    - OS
+                ENROLLMENT_TOKEN:
+                  Ref: EnrollmentToken
+                BASTION_HOSTNAME:
+                  Ref: BastionHostName
+                TARGET_HOSTNAME:
+                  Ref: TargetHostName
+              command: ./install_asa_target.sh
     Properties:
       AssociatePublicIpAddress: false
-      PlacementTenancy: !Ref EC2Tenancy
-      KeyName: !Ref KeyPairName
-      IamInstanceProfile: !Ref TargetHostProfile
-      ImageId: !If
-        - UseOSImageOverride
-        - !Ref OSImageOverride
-        - !FindInMap
-          - AWSAMIRegionMap
-          - !Ref 'AWS::Region'
-          - !FindInMap
-            - LinuxAMINameMap
-            - !Ref EC2AMIOS
-            - Code
+      PlacementTenancy:
+        Ref: EC2Tenancy
+      KeyName:
+        Ref: KeyPairName
+      IamInstanceProfile:
+        Ref: TargetHostProfile
+      ImageId:
+        Fn::If:
+          - UseOSImageOverride
+          - Ref: OSImageOverride
+          - Fn::FindInMap:
+              - AWSAMIRegionMap
+              - Ref: AWS::Region
+              - Fn::FindInMap:
+                  - LinuxAMINameMap
+                  - Ref: EC2AMIOS
+                  - Code
       SecurityGroups:
-        - !Ref TargetSecurityGroup
-      InstanceType: !Ref EC2InstanceType
+        - Ref: TargetSecurityGroup
+      InstanceType:
+        Ref: EC2InstanceType
       BlockDeviceMappings:
         - DeviceName: /dev/xvda
           Ebs:
-            VolumeSize: !Ref RootVolumeSize
+            VolumeSize:
+              Ref: RootVolumeSize
             VolumeType: gp2
             Encrypted: true
             DeleteOnTermination: true
       UserData:
-        Fn::Base64: !Sub |
-            #!/bin/bash
-            set -x
-            for e in $(echo "${EnvironmentVariables}" | tr ',' ' '); do
-              export $e
-            done
-            export PATH=$PATH:/usr/local/bin
-            #cfn signaling functions
-            yum install git -y || apt-get install -y git || zypper -n install git
-
-            function cfn_fail
-            {
-              cfn-signal -e 1 --stack ${AWS::StackName} --region ${AWS::Region} --resource TargetAutoScalingGroup
-              exit 1
-            }
-
-            function cfn_success
-            {
-              cfn-signal -e 0 --stack ${AWS::StackName} --region ${AWS::Region} --resource TargetAutoScalingGroup
-              exit 0
-            }
-
-            until git clone https://github.com/aws-quickstart/quickstart-linux-utilities.git ; do echo "Retrying"; done
-            cd /quickstart-linux-utilities;
-            source quickstart-cfn-tools.source;
-            qs_update-os || qs_err;
-            qs_bootstrap_pip || qs_err " pip bootstrap failed ";
-            qs_aws-cfn-bootstrap || qs_err " cfn bootstrap failed ";
-
-            CLOUDWATCHGROUP=${TargetMainLogGroup}
-            cfn-init -v --stack '${AWS::StackName}' --resource TargetLaunchConfiguration --region ${AWS::Region} || cfn_fail
-            [ $(qs_status) == 0 ] && cfn_success || cfn_fail
+        Fn::Base64:
+          Fn::Sub: "#!/bin/bash\nset -x\nfor e in $(echo \"${EnvironmentVariables}\" | tr ',' ' '); do\n  export $e\ndone\nexport PATH=$PATH:/usr/local/bin\n#cfn signaling functions\nyum install git -y\
+            \ || apt-get install -y git || zypper -n install git\n\nfunction cfn_fail\n{\n  cfn-signal -e 1 --stack ${AWS::StackName} --region ${AWS::Region} --resource TargetAutoScalingGroup\n  exit 1\n\
+            }\n\nfunction cfn_success\n{\n  cfn-signal -e 0 --stack ${AWS::StackName} --region ${AWS::Region} --resource TargetAutoScalingGroup\n  exit 0\n}\n\nuntil git clone https://github.com/aws-quickstart/quickstart-linux-utilities.git\
+            \ ; do echo \"Retrying\"; done\ncd /quickstart-linux-utilities;\nsource quickstart-cfn-tools.source;\nqs_update-os || qs_err;\nqs_bootstrap_pip || qs_err \" pip bootstrap failed \";\nqs_aws-cfn-bootstrap\
+            \ || qs_err \" cfn bootstrap failed \";\n\nCLOUDWATCHGROUP=${TargetMainLogGroup}\ncfn-init -v --stack '${AWS::StackName}' --resource TargetLaunchConfiguration --region ${AWS::Region} || cfn_fail\n\
+            [ $(qs_status) == 0 ] && cfn_success || cfn_fail\n"
   TargetSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
+    Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Enables SSH Access to Target Hosts
-      VpcId: !Ref VPCID
+      VpcId:
+        Ref: VPCID
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
-          SourceSecurityGroupId: !Ref 'BastionSecurityGroupID'
+          SourceSecurityGroupId:
+            Ref: BastionSecurityGroupID
         - IpProtocol: icmp
           FromPort: -1
           ToPort: -1
-          SourceSecurityGroupId: !Ref 'BastionSecurityGroupID'
+          SourceSecurityGroupId:
+            Ref: BastionSecurityGroupID
 Outputs:
   TargetAutoScalingGroup:
     Description: Auto Scaling Group Reference ID
-    Value: !Ref TargetAutoScalingGroup
+    Value:
+      Ref: TargetAutoScalingGroup
     Export:
-      Name: !Sub '${AWS::StackName}-TargetAutoScalingGroup'
+      Name:
+        Fn::Sub: ${AWS::StackName}-TargetAutoScalingGroup
   CloudWatchLogs:
     Description: CloudWatch Logs GroupName. Your SSH logs will be stored here.
-    Value: !Ref TargetMainLogGroup
+    Value:
+      Ref: TargetMainLogGroup
     Export:
-      Name: !Sub '${AWS::StackName}-CloudWatchLogs'
+      Name:
+        Fn::Sub: ${AWS::StackName}-CloudWatchLogs
   TargetSecurityGroupID:
     Description: Target Security Group ID
-    Value: !Ref TargetSecurityGroup
+    Value:
+      Ref: TargetSecurityGroup
     Export:
-      Name: !Sub '${AWS::StackName}-TargetSecurityGroupID'
+      Name:
+        Fn::Sub: ${AWS::StackName}-TargetSecurityGroupID
   TargetHostRole:
     Description: Target IAM role name
-    Value: !If
-      - CreateIAMRole
-      - !Ref TargetHostRole
-      - !Ref AlternativeIAMRole
+    Value:
+      Fn::If:
+        - CreateIAMRole
+        - Ref: TargetHostRole
+        - Ref: AlternativeIAMRole
     Export:
-      Name: !Sub '${AWS::StackName}-TargetHostRole'
+      Name:
+        Fn::Sub: ${AWS::StackName}-TargetHostRole
